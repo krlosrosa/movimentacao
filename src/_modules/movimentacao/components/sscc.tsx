@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/_shared/_components/ui/card"
 import { Package, ScanBarcode } from "lucide-react"
 import { useState } from "react"
 import { Demanda } from "../store/demanda"
+import ModalValidarAnomalia from "./modalValidarAnomaliar"
+import useRegisterAnomalia from "../hooks/useRegisterAnomalia"
 
 interface SSCCProps {
   setTabSelect: (tab: string) => void
@@ -12,6 +14,7 @@ interface SSCCProps {
 
 export default function SSCC({ setTabSelect, demanda }: SSCCProps) {
   const [sscc, setSscc] = useState("")
+  const [isOpen, setIsOpen] = useState(false)
   const ssccEsperado = demanda.palete
   
   const handleConfirmar = () => {
@@ -20,6 +23,15 @@ export default function SSCC({ setTabSelect, demanda }: SSCCProps) {
     if (sscc === ssccEsperado) {
       setTabSelect('enderecoDestino')
     }
+    setIsOpen(true)
+  }
+
+  const { handleRegisterAnomalia, isPending, error } = useRegisterAnomalia()
+
+  const handleValidarAnomalia = () => {
+    handleRegisterAnomalia(demanda.idMov)
+    setTabSelect('demanda')
+    setIsOpen(false)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -75,6 +87,7 @@ export default function SSCC({ setTabSelect, demanda }: SSCCProps) {
           >
             CONFIRMAR SSCC
           </Button>
+          <ModalValidarAnomalia isOpen={isOpen} setIsOpen={setIsOpen} onValidarAnomalia={handleValidarAnomalia} />
 
           {/* Dica */}
           <div className="text-xs text-center text-gray-500 bg-gray-50 p-2 rounded">

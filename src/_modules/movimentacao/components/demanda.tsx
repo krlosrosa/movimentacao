@@ -5,6 +5,7 @@ import { PlayCircle, CheckCircle, Clock, AlertCircle, Package, MapPin } from "lu
 import { Skeleton } from "@/_shared/_components/ui/skeleton"
 import { useEffect, useState } from "react"
 import { Demanda } from "../store/demanda"
+import useRegistrarStart from "../hooks/registrarStart"
 
 interface DemandaOperadorProps {
   setTabSelect: (tab: string) => void
@@ -14,11 +15,14 @@ interface DemandaOperadorProps {
 export default function DemandaOperador({ setTabSelect, demanda }: DemandaOperadorProps) {
   const [status, setStatus] = useState('')
 
+  const { registrarStart, isPending, error } = useRegistrarStart()
+
   useEffect(() => {
     if (demanda) setStatus(demanda.status)
   }, [demanda])
 
   const handleAction = () => {
+    registrarStart(demanda.idMov)
     setTabSelect('enderecoOrigem')
   }
 

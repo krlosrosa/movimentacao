@@ -10,7 +10,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth(); // Agora 'session' já tem .id, .roles, etc.
   if (!session) {
-    // return redirect('/login');
+    return redirect('/login');
   }
 
   // NÃO PRECISA MAIS DO FETCH!
@@ -20,8 +20,8 @@ export default async function RootLayout({
   // Você pode precisar ajustar o 'fetchUser' (mock) ou usá-lo
   // para pegar os 'centers', que parecem faltar na sessão.
   const user = {
-    id: session?.user.id || '421931',
-    name: session?.user.name || 'Carlos Roberto',
+    id: session?.user.id,
+    name: session?.user.name || '',
     roles: session?.user.roles || [],
     empresa: session?.user.empresa || null,
     centers: ['bauru'] as string[],
