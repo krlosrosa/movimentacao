@@ -6,6 +6,6 @@ export default function useGetDemanda() {
   if (!user) {
     throw new Error('User not found');
   }
-  const { data, isLoading, error } = useBuscarDemanda('bauru');
+  const { data, isLoading, error } = useBuscarDemanda(user.centerSelect as string);
   return { data, isLoading, error };
 }
