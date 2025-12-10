@@ -30,7 +30,7 @@ export default function EnderecoOrigem({ setTabSelect, demanda }: EnderecoOrigem
   const handleConfirmar = () => {
     if (!endereco) return
     
-    if (endereco === enderecoEsperado) {
+    if (endereco.toUpperCase().slice(0, 10) === enderecoEsperado.toUpperCase().slice(0, 10)) {
       setTabSelect('sscc')
     }
   }
