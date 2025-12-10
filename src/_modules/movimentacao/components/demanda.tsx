@@ -21,6 +21,17 @@ export default function DemandaOperador({ setTabSelect, demanda }: DemandaOperad
   const handleAction = () => {
     setTabSelect('enderecoOrigem')
   }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        handleAction()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
   const getPriorityColor = (prioridade: number) => {
     if (prioridade === 1) return "bg-red-500"
     if (prioridade === 2) return "bg-orange-500"

@@ -1,7 +1,7 @@
 import { Button } from "@/_shared/_components/ui/button"
 import { Card, CardContent } from "@/_shared/_components/ui/card"  
 import { CheckCircle, Package, MapPin, ScanBarcode } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Demanda } from "../store/demanda"
 import useValidateDemanda from "../hooks/useValidateDemanda"
 
@@ -24,6 +24,17 @@ export default function Validacao({ setTabSelect, demanda }: ValidacaoProps) {
       console.error("Erro ao concluir demanda:", error)
     }
   }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && !isLoading) {
+        handleConcluir()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isLoading])
 
   return (
     <div className="min-h-screen bg-gray-100">
