@@ -35,20 +35,27 @@ export default function EnderecoOrigem({ setTabSelect, demanda }: EnderecoOrigem
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault()
+      handleConfirmar()
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 p-3">
-      <Card className="w-full max-w-md mx-auto shadow-lg">
-        <CardContent className="p-4 space-y-4">
+    <div className="min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md mx-auto shadow-lg p-1">
+        <CardContent className="p-4 space-y-2">
           {/* Instrução */}
-          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 text-center">
-            <ScanBarcode className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+          <div className="bg-blue-50 border-2 flex items-center justify-center border-blue-200 rounded-lg p-2 text-center">
+            <ScanBarcode className="w-8 h-8 text-blue-600 mx-auto mb-1" />
             <p className="text-sm font-bold text-blue-900">
               BIPE O ENDEREÇO DE ORIGEM
             </p>
           </div>
 
           {/* Endereço Esperado */}
-          <div className="bg-gray-900 text-white p-4 rounded-lg">
+          <div className="bg-gray-900 text-white p-2 rounded-lg">
             <div className="flex items-center gap-2 text-xs text-gray-300 mb-1">
               <MapPin className="w-3 h-3" />
               ENDEREÇO ESPERADO
@@ -59,13 +66,14 @@ export default function EnderecoOrigem({ setTabSelect, demanda }: EnderecoOrigem
           </div>
 
           {/* Input de Bipagem */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label className="text-sm font-semibold text-gray-700">
               Endereço Bipado
             </label>
             <Input
               value={endereco}
               onChange={(e) => setEndereco(e.target.value.toUpperCase())}
+              onKeyDown={handleKeyDown}
               placeholder="Bipe ou digite o endereço"
               className="h-12 text-lg font-bold text-center"
               autoFocus

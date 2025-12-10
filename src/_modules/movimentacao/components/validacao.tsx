@@ -26,11 +26,11 @@ export default function Validacao({ setTabSelect, demanda }: ValidacaoProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-3">
-      <Card className="w-full max-w-md mx-auto shadow-lg">
-        <CardContent className="p-4 space-y-4">
+    <div className="min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md mx-auto shadow-lg p-1">
+        <CardContent className="p-1 space-y-1">
           {/* Header de Sucesso */}
-          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center">
+          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-2 text-center">
             <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-2" />
             <h2 className="text-lg font-bold text-green-900">
               VALIDAR MOVIMENTAÇÃO
@@ -40,23 +40,6 @@ export default function Validacao({ setTabSelect, demanda }: ValidacaoProps) {
             </p>
           </div>
 
-          {/* Demanda */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-3">
-            <div className="text-xs text-gray-500 font-semibold mb-1">DEMANDA</div>
-            <div className="text-lg font-bold text-gray-900">#{demanda.idMov}</div>
-          </div>
-
-          {/* SSCC/Palete */}
-          <div className="bg-gray-900 text-white p-3 rounded-lg">
-            <div className="flex items-center gap-2 text-xs text-gray-300 mb-1">
-              <Package className="w-3 h-3" />
-              PALETE (SSCC)
-            </div>
-            <div className="text-xs font-mono font-bold tracking-tight break-all leading-relaxed">
-              {demanda.palete}
-            </div>
-          </div>
-
           {/* Origem e Destino */}
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-blue-50 border-2 border-blue-200 p-3 rounded-lg">
@@ -64,7 +47,7 @@ export default function Validacao({ setTabSelect, demanda }: ValidacaoProps) {
                 <MapPin className="w-3 h-3" />
                 ORIGEM
               </div>
-              <div className="text-xl font-bold text-blue-900">{demanda.origem}</div>
+              <div className="text-lg font-bold text-blue-900">{demanda.origem}</div>
             </div>
             
             <div className="bg-green-50 border-2 border-green-200 p-3 rounded-lg">
@@ -72,12 +55,12 @@ export default function Validacao({ setTabSelect, demanda }: ValidacaoProps) {
                 <MapPin className="w-3 h-3" />
                 DESTINO
               </div>
-              <div className="text-xl font-bold text-green-900">{demanda.destino}</div>
+              <div className="text-lg font-bold text-green-900">{demanda.destino}</div>
             </div>
           </div>
 
           {/* Produto */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-3 space-y-2">
+          <div className="bg-white border-2 border-gray-200 rounded-lg p-2 space-y-1">
             <div className="border-b pb-2">
               <div className="text-xs text-gray-500 font-semibold">SKU</div>
               <div className="text-base font-bold text-gray-900">{demanda.sku}</div>

@@ -22,12 +22,19 @@ export default function EnderecoDestino({ setTabSelect, demanda }: EnderecoDesti
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault()
+      handleConfirmar()
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 p-3">
-      <Card className="w-full max-w-md mx-auto shadow-lg">
-        <CardContent className="p-4 space-y-4">
+    <div className="min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md mx-auto shadow-lg p-1">
+        <CardContent className="p-4 space-y-2">
           {/* Instrução */}
-          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center">
+          <div className="bg-green-50 border-2 flex items-center justify-center border-green-200 rounded-lg p-2 text-center">
             <ScanBarcode className="w-8 h-8 text-green-600 mx-auto mb-2" />
             <p className="text-sm font-bold text-green-900">
               BIPE O ENDEREÇO DE DESTINO
@@ -35,7 +42,7 @@ export default function EnderecoDestino({ setTabSelect, demanda }: EnderecoDesti
           </div>
 
           {/* Endereço Esperado */}
-          <div className="bg-gray-900 text-white p-4 rounded-lg">
+          <div className="bg-gray-900 text-white p-2 rounded-lg">
             <div className="flex items-center gap-2 text-xs text-gray-300 mb-1">
               <MapPin className="w-3 h-3" />
               ENDEREÇO ESPERADO
@@ -53,6 +60,7 @@ export default function EnderecoDestino({ setTabSelect, demanda }: EnderecoDesti
             <Input
               value={endereco}
               onChange={(e) => setEndereco(e.target.value.toUpperCase())}
+              onKeyDown={handleKeyDown}
               placeholder="Bipe ou digite o endereço"
               className="h-12 text-lg font-bold text-center"
               autoFocus

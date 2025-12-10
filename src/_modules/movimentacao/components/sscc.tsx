@@ -22,10 +22,17 @@ export default function SSCC({ setTabSelect, demanda }: SSCCProps) {
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault()
+      handleConfirmar()
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 p-3">
-      <Card className="w-full max-w-md mx-auto shadow-lg">
-        <CardContent className="p-4 space-y-4">
+    <div className="min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md mx-auto shadow-lg p-1">
+        <CardContent className="p-4 space-y-2">
           {/* Instrução */}
           <div className="bg-purple-50 border-2 border-purple-200 rounded-lg p-4 text-center">
             <ScanBarcode className="w-8 h-8 text-purple-600 mx-auto mb-2" />
@@ -35,7 +42,7 @@ export default function SSCC({ setTabSelect, demanda }: SSCCProps) {
           </div>
 
           {/* SSCC Esperado */}
-          <div className="bg-gray-900 text-white p-4 rounded-lg">
+          <div className="bg-gray-900 text-white p-2 rounded-lg">
             <div className="flex items-center gap-2 text-xs text-gray-300 mb-1">
               <Package className="w-3 h-3" />
               SSCC ESPERADO
@@ -46,13 +53,14 @@ export default function SSCC({ setTabSelect, demanda }: SSCCProps) {
           </div>
 
           {/* Input de Bipagem */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label className="text-sm font-semibold text-gray-700">
               SSCC Bipado
             </label>
             <Input
               value={sscc}
               onChange={(e) => setSscc(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Bipe ou digite o SSCC"
               className="h-12 text-sm font-mono text-center"
               autoFocus

@@ -30,20 +30,10 @@ export default function DemandaOperador({ setTabSelect, demanda }: DemandaOperad
   const priorityColor = getPriorityColor(demanda.prioridade)
 
   return (
-    <div className="min-h-screen bg-gray-100 p-3">
-      <Card className="w-full max-w-md mx-auto shadow-lg">
-        <CardHeader className="bg-white border-b p-3 space-y-2">
-          <div className="flex justify-between items-center">
-            <h1 className="text-lg font-bold text-gray-900">
-              Demanda #{demanda.idMov}
-            </h1>
-            <Badge className={`${priorityColor} text-white px-3 py-1 text-xs font-bold`}>
-              P{demanda.prioridade}
-            </Badge>
-          </div>
-        </CardHeader>
-        
-        <CardContent className="p-3 space-y-3">
+    <div className="min-h-screen bg-gray-100"> 
+      <Card className="w-full max-w-md mx-auto shadow-lg p-1">
+
+        <CardContent className="p-0 space-y-3">
           {/* Palete */}
           <div className="bg-gray-900 text-white p-3 rounded-lg">
             <div className="flex items-center gap-2 text-xs text-gray-300 mb-1">
@@ -62,7 +52,7 @@ export default function DemandaOperador({ setTabSelect, demanda }: DemandaOperad
                 <MapPin className="w-3 h-3" />
                 ORIGEM
               </div>
-              <div className="text-xl font-bold text-blue-900">{demanda.origem}</div>
+              <div className="text-lg font-bold text-blue-900">{demanda.origem}</div>
             </div>
             
             <div className="bg-green-50 border-2 border-green-200 p-3 rounded-lg">
@@ -70,12 +60,12 @@ export default function DemandaOperador({ setTabSelect, demanda }: DemandaOperad
                 <MapPin className="w-3 h-3" />
                 DESTINO
               </div>
-              <div className="text-xl font-bold text-green-900">{demanda.destino}</div>
+              <div className="text-lg font-bold text-green-900">{demanda.destino}</div>
             </div>
           </div>
 
           {/* Produto */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-3 space-y-2">
+          <div className="bg-white border-2 border-gray-200 rounded-lg p-2 space-y-1">
             <div className="border-b pb-2">
               <div className="text-xs text-gray-500 font-semibold">SKU</div>
               <div className="text-lg font-bold text-gray-900">{demanda.sku}</div>

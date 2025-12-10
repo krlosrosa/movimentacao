@@ -10,7 +10,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth(); // Agora 'session' já tem .id, .roles, etc.
   if (!session) {
-    //redirect('login');
+    // return redirect('/login');
   }
 
   // NÃO PRECISA MAIS DO FETCH!
