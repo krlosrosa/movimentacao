@@ -5,6 +5,7 @@ export default function useBuscarDemanda(centerId: string) {
   const { data, isLoading, error } = useQuery({
     queryKey: ['demanda'],
     queryFn: () => buscarDemanda(centerId),
+    refetchInterval: 1000 * 20 , // 5 minutos
   });
   return { data, isLoading, error };
 }
