@@ -21,6 +21,7 @@ export default auth((req) => {
   // 1. Rotas públicas (não exigem autenticação)
   const publicRoutes = [
     '/login', // A sua página de login personalizada
+    '/demanda',
     // Adicione aqui outras rotas públicas (ex: /landing-page, /sobre)
   ];
 

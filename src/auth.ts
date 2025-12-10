@@ -96,7 +96,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           token.error = 'MissingBackendURLError';
           return token; // Retorna token com erro
         }
-
+        console.log('backendUrl', backendUrl);
         try {
           const res = await fetch(`${backendUrl}/api/user/info-me`, {
             headers: { Authorization: `Bearer ${account.access_token}` },
@@ -108,12 +108,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
 
           const userInfo = await res.json();
+          console.log(userInfo);
           // Caminho feliz: dados populados no token
           token.id = userInfo.id;
           token.roles = userInfo.roles;
           token.empresa = userInfo.empresa;
           delete token.error; // Limpa qualquer erro anterior
         } catch (error) {
+          console.log(error);
           console.error('Erro ao buscar /info-me no login:', error);
           token.id = null;
           token.roles = null;
