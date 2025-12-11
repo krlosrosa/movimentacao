@@ -6,6 +6,7 @@ import { useState } from "react"
 import { Demanda } from "../store/demanda"
 import useRegisterAnomalia from "../hooks/useRegisterAnomalia"
 import ModalValidarAnomalia from "./modalValidarAnomaliar"
+import toast from "react-hot-toast"
 
 interface EnderecoOrigemProps {
   setTabSelect: (tab: string) => void
@@ -32,6 +33,8 @@ export default function EnderecoOrigem({ setTabSelect, demanda }: EnderecoOrigem
     
     if (endereco.toUpperCase().slice(0, 10) === enderecoEsperado.toUpperCase().slice(0, 10)) {
       setTabSelect('sscc')
+    } else{
+      toast.error('Endereço incorreto')
     }
   }
 
