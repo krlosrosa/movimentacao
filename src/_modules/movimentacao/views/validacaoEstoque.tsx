@@ -197,12 +197,6 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
         {/* Header com progresso */}
         <div className="max-w-2xl mx-auto mb-4 bg-white p-4 rounded-lg border-2 border-gray-200">
           <div className="flex justify-between items-center mb-2">
-            <div>
-              <h2 className="text-lg font-bold">Validação de Estoque</h2>
-              <p className="text-sm text-gray-600">
-                Item {indiceAtual + 1} de {totalValidacoes}
-              </p>
-            </div>
             {todasValidadas && !mostrarModalConclusao && (
               <Button 
                 onClick={() => setMostrarModalConclusao(true)}
