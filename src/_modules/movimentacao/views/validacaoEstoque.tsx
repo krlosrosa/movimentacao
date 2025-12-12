@@ -2,16 +2,19 @@ import ModalEdicao, { FormData } from "./modalEditar"
 import { useState } from "react"
 import { ValidacaoContagemLite } from "../types/validacao-contatem-lite"
 import { Button } from "@/_shared/_components/ui/button"
-import { ChevronLeft, ChevronRight, Barcode, CheckCircle, Edit, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, Barcode, CheckCircle, Edit, X, Search } from "lucide-react"
 import CardValidacao from "../components/cardValidacao"
 import { useRouter } from "next/navigation"
 import useValidarContagem from "../hooks/useValidarContagem"
+import { BuscaCodigoBarras } from "./buscaCodeBar"
 
 export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoContagemLite[] }) {
   const [indiceAtual, setIndiceAtual] = useState(0)
   const [validacoes, setValidacoes] = useState(validacao)
   const [modoEdicao, setModoEdicao] = useState(false)
   const [mostrarModalConclusao, setMostrarModalConclusao] = useState(false)
+  const [buscaAtiva, setBuscaAtiva] = useState(false)
+  const [statusBusca, setStatusBusca] = useState<'idle' | 'buscando' | 'encontrado' | 'nao-encontrado'>('idle')
   const { handleValidarContagemLite } = useValidarContagem()
   const router = useRouter()
 
@@ -19,6 +22,41 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
   const totalValidacoes = validacoes.length
   const validacoesCompletas = validacoes.filter(v => v.validado).length
   const todasValidadas = validacoesCompletas === totalValidacoes && totalValidacoes > 0
+
+  const handleBuscarCodigo = async (codigo: string) => {
+    setStatusBusca('buscando')
+    
+    try {
+      // Simulação de busca - substitua pela sua API real
+      const response = await fetch(`/api/contagem/buscar?codigo=${encodeURIComponent(codigo)}`)
+      
+      if (!response.ok) {
+        setStatusBusca('nao-encontrado')
+        return
+      }
+      
+      const data = await response.json()
+      
+      if (data.encontrado && data.id) {
+        setStatusBusca('encontrado')
+        // Navega para a página de contagem do item encontrado
+        setTimeout(() => {
+          router.push(`/contagem/${data.id}`)
+        }, 500)
+      } else {
+        setStatusBusca('nao-encontrado')
+        // Pode oferecer criar novo ou apenas mostrar que não encontrou
+        setTimeout(() => {
+          setStatusBusca('idle')
+        }, 2000)
+      }
+    } catch (error) {
+      setStatusBusca('nao-encontrado')
+      setTimeout(() => {
+        setStatusBusca('idle')
+      }, 2000)
+    }
+  }
 
   const handleProximo = () => {
     if (indiceAtual < totalValidacoes - 1) {
@@ -38,9 +76,6 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
     novasValidacoes[indiceAtual] = { ...novasValidacoes[indiceAtual], validado: true }
     setValidacoes(novasValidacoes)
     
-    console.log('Confirmado:', novasValidacoes[indiceAtual])
-    
-    // Verifica se após confirmar este, todos estão validados
     const todasAgora = novasValidacoes.filter(v => v.validado).length === totalValidacoes
     if (todasAgora) {
       setMostrarModalConclusao(true)
@@ -54,8 +89,8 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
   }
 
   const handleBiparNovoEndereco = () => {
-    // Aqui você implementaria a lógica para bipar um novo endereço
-    router.push(`/contagem`)
+    setBuscaAtiva(true)
+    setStatusBusca('idle')
   }
 
   // Componente para mostrar quando todas as validações estão completas
@@ -66,14 +101,14 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center">
             <div className="mr-3">
-              <CheckCircle className="w-12 h-12 text-green-500" />
+              <CheckCircle className="w-6 h-6 text-green-500" />
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-gray-800">
-                Todas as validações concluídas! ✅
+              <h3 className="text-xl font-bold text-gray-800">
+                Validações Concluídas
               </h3>
               <p className="text-gray-600">
-                {totalValidacoes} itens validados com sucesso
+                {totalValidacoes} itens validados
               </p>
             </div>
           </div>
@@ -86,34 +121,70 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
         </div>
         
         <div className="space-y-4">
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <p className="text-green-800 text-center">
-              Você concluiu a validação de todos os itens deste endereço.
-            </p>
-          </div>
+          {statusBusca === 'encontrado' && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+              <p className="text-green-800 text-center">
+                Item encontrado! Redirecionando...
+              </p>
+            </div>
+          )}
+          
+          {statusBusca === 'nao-encontrado' && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+              <p className="text-yellow-800 text-center">
+                Item não encontrado. Tente outro código.
+              </p>
+            </div>
+          )}
           
           <div className="space-y-3">
-            <Button
-              onClick={handleBiparNovoEndereco}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg"
-            >
-              <Barcode className="w-5 h-5 mr-2" />
-              Bipar novo endereço
-            </Button>
-            
-            <Button
-              onClick={() => {
-                // Fecha o modal e permite editar
-                setMostrarModalConclusao(false)
-                // Pode navegar para o primeiro item não validado ou deixar onde está
-                // Aqui você pode adicionar lógica para ir para um item específico
-              }}
-              variant="outline"
-              className="w-full h-12"
-            >
-              <Edit className="w-5 h-5 mr-2" />
-              Continuar Editando
-            </Button>
+            {buscaAtiva ? (
+              <>
+                <div className="mb-2">
+                  <p className="text-sm text-gray-600 mb-1">
+                    Digite o código de barras:
+                  </p>
+                  <BuscaCodigoBarras 
+                    onBuscar={handleBuscarCodigo}
+                    placeholder="Código de barras..."
+                  />
+                  {statusBusca === 'buscando' && (
+                    <p className="text-sm text-blue-600 mt-2 text-center">
+                      Buscando...
+                    </p>
+                  )}
+                </div>
+                <Button
+                  onClick={() => {
+                    setBuscaAtiva(false)
+                    setStatusBusca('idle')
+                  }}
+                  variant="outline"
+                  className="w-full h-12"
+                >
+                  Cancelar Busca
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={handleBiparNovoEndereco}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg"
+                >
+                  <Barcode className="w-5 h-5 mr-2" />
+                  Buscar novo item
+                </Button>
+                
+                <Button
+                  onClick={() => setMostrarModalConclusao(false)}
+                  variant="outline"
+                  className="w-full h-12"
+                >
+                  <Edit className="w-5 h-5 mr-2" />
+                  Continuar Editando
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -124,10 +195,26 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
     <>
       <div className="min-h-screen bg-gray-50 p-4">
         {/* Header com progresso */}
-        <div className="max-w-2xl mx-auto mb-4 bg-white p-2 rounded-lg border-2 border-gray-200">
-          <div className="flex justify-between items-center mb-1">
+        <div className="max-w-2xl mx-auto mb-4 bg-white p-4 rounded-lg border-2 border-gray-200">
+          <div className="flex justify-between items-center mb-2">
+            <div>
+              <h2 className="text-lg font-bold">Validação de Estoque</h2>
+              <p className="text-sm text-gray-600">
+                Item {indiceAtual + 1} de {totalValidacoes}
+              </p>
+            </div>
+            {todasValidadas && !mostrarModalConclusao && (
+              <Button 
+                onClick={() => setMostrarModalConclusao(true)}
+                size="sm"
+                className="bg-green-600 hover:bg-green-700 text-white"
+              >
+                <CheckCircle className="w-4 h-4 mr-2" />
+                Concluído
+              </Button>
+            )}
           </div>
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-2 items-center">
             <div className="flex-1 bg-gray-200 rounded-full h-2.5">
               <div 
                 className={`h-2.5 rounded-full transition-all duration-300 ${todasValidadas ? 'bg-green-500' : 'bg-blue-600'}`}
@@ -183,7 +270,7 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
         )}
       </div>
       
-      {/* Modal de conclusão - APENAS QUANDO TODOS ESTIVEREM VALIDADOS */}
+      {/* Modal de conclusão */}
       {mostrarModalConclusao && <TodasConcluidas />}
     </>
   )

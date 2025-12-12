@@ -187,16 +187,8 @@ export default function ContagemEstoque() {
                     <div>
                       <h3 className="font-semibold text-green-800 mb-1 flex items-center gap-2">
                         <span className="h-2 w-2 bg-green-500 rounded-full"></span>
-                        Endereço validado com sucesso!
+                        Endereço encontrado!
                       </h3>
-                      <p className="text-green-700">
-                        <span className="font-medium">Código:</span> {endereco}
-                      </p>
-                      {enderecoData[0].descricao && (
-                        <p className="text-green-700 mt-1">
-                          <span className="font-medium">Descrição:</span> {enderecoData[0].descricao}
-                        </p>
-                      )}
                     </div>
                     <Button
                       type="button"
