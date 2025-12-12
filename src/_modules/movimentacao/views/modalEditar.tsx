@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/_shared/_components/ui/card"
 import { Button } from "@/_shared/_components/ui/button"
 import { Label } from "@/_shared/_components/ui/label"
@@ -38,6 +38,15 @@ export default function ModalEdicao({
     peso: ''
   })
 
+  // Focar no primeiro input automaticamente
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const skuInput = document.getElementById('sku')
+      skuInput?.focus()
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [])
+
   const handleSalvar = () => {
     handleAddAnomaliaContagemLite(validacao.endereco, {
       sku: formData.sku,
@@ -48,37 +57,60 @@ export default function ModalEdicao({
     setModoEdicao(false)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Tecla Enter para navegar entre campos
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      const inputs = Array.from(document.querySelectorAll('input'))
+      const currentIndex = inputs.indexOf(e.target as HTMLInputElement)
+      if (currentIndex < inputs.length - 1) {
+        inputs[currentIndex + 1].focus()
+      }
+    }
+  }
+
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-lg">
-        <CardContent className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h3 className="text-xl font-bold">Validação #{validacao.id}</h3>
-              <p className="text-sm text-gray-600 mt-1">Endereço: {validacao.endereco}</p>
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-2 z-50">
+      <Card className="w-full max-w-sm max-h-[90vh] overflow-hidden">
+        <CardContent className="p-2">
+          {/* Cabeçalho fixo */}
+          <div className="sticky top-0 bg-white z-10 pb-1 border-b">
+            <div className="flex justify-between items-center mb-2">
+              <div className="flex-1">
+                <h3 className="text-lg font-bold truncate">Validação #{validacao.id}</h3>
+                <p className="text-sm text-gray-600 truncate">Endereço: {validacao.endereco}</p>
+              </div>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={onCancelar}
+                className="h-8 w-8 p-0 shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </Button>
             </div>
-            <Button variant="ghost" size="sm" onClick={onCancelar}>
-              <X className="w-5 h-5" />
-            </Button>
           </div>
 
-          <div className="space-y-5">
+          {/* Conteúdo rolável */}
+          <div className="space-y-1 mt-3 overflow-y-auto max-h-[calc(90vh-140px)] pr-1">
             <div>
-              <Label htmlFor="sku" className="text-base font-semibold mb-2 block">
-                SKU
+              <Label htmlFor="sku" className="text-sm font-semibold mb-1 block">
+                SKU *
               </Label>
               <Input
                 id="sku"
                 type="text"
                 value={formData.sku}
                 onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                className="h-12 text-lg"
+                onKeyDown={handleKeyDown}
+                className="h-10 text-base"
                 placeholder="Digite o SKU"
+                required
               />
             </div>
 
             <div>
-              <Label htmlFor="lote" className="text-base font-semibold mb-2 block">
+              <Label htmlFor="lote" className="text-sm font-semibold mb-1 block">
                 Lote
               </Label>
               <Input
@@ -86,56 +118,70 @@ export default function ModalEdicao({
                 type="text"
                 value={formData.lote}
                 onChange={(e) => setFormData({ ...formData, lote: e.target.value })}
-                className="h-12 text-lg"
+                onKeyDown={handleKeyDown}
+                className="h-10 text-base"
                 placeholder="Digite o lote"
               />
             </div>
 
-            <div>
-              <Label htmlFor="caixas" className="text-base font-semibold mb-2 block">
-                Quantidade de Caixas
-              </Label>
-              <Input
-                id="caixas"
-                type="number"
-                value={formData.caixas}
-                onChange={(e) => setFormData({ ...formData, caixas: e.target.value })}
-                className="h-12 text-lg"
-                placeholder="0"
-                inputMode="numeric"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label htmlFor="caixas" className="text-sm font-semibold mb-1 block">
+                  Caixas
+                </Label>
+                <Input
+                  id="caixas"
+                  type="number"
+                  min="0"
+                  value={formData.caixas}
+                  onChange={(e) => setFormData({ ...formData, caixas: e.target.value })}
+                  onKeyDown={handleKeyDown}
+                  className="h-10 text-base"
+                  placeholder="0"
+                  inputMode="numeric"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="peso" className="text-sm font-semibold mb-1 block">
+                  Peso (kg)
+                </Label>
+                <Input
+                  id="peso"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={formData.peso}
+                  onChange={(e) => setFormData({ ...formData, peso: e.target.value })}
+                  onKeyDown={handleKeyDown}
+                  className="h-10 text-base"
+                  placeholder="0.00"
+                  inputMode="decimal"
+                />
+              </div>
             </div>
 
-            <div>
-              <Label htmlFor="peso" className="text-base font-semibold mb-2 block">
-                Peso (kg)
-              </Label>
-              <Input
-                id="peso"
-                type="number"
-                step="0.01"
-                value={formData.peso}
-                onChange={(e) => setFormData({ ...formData, peso: e.target.value })}
-                className="h-12 text-lg"
-                placeholder="0.00"
-                inputMode="decimal"
-              />
-            </div>
-
-            <div className="flex gap-3 pt-4">
-              <Button 
-                variant="outline" 
-                onClick={onCancelar} 
-                className="flex-1 h-12 text-base"
-              >
-                Cancelar
-              </Button>
-              <Button 
-                onClick={handleSalvar} 
-                className="flex-1 h-12 text-base bg-blue-600 hover:bg-blue-700"
-              >
-                Salvar
-              </Button>
+            {/* Rodapé fixo */}
+            <div className="sticky bottom-0 bg-white pt-4 pb-1">
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={onCancelar} 
+                  className="flex-1 h-10 text-sm font-medium"
+                >
+                  Cancelar
+                </Button>
+                <Button 
+                  onClick={handleSalvar} 
+                  className="flex-1 h-10 text-sm font-medium bg-blue-600 hover:bg-blue-700"
+                  disabled={!formData.sku.trim()} // Desabilita se SKU estiver vazio
+                >
+                  Salvar
+                </Button>
+              </div>
+              <p className="text-xs text-gray-500 text-center mt-2">
+                * Campos obrigatórios
+              </p>
             </div>
           </div>
         </CardContent>

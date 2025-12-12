@@ -66,20 +66,6 @@ export default function ContagemEstoque() {
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
-        {/* Cabeçalho */}
-        <header className="mb-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <Barcode className="h-8 w-8 text-primary" />
-            </div>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-            Contagem de Estoque
-          </h1>
-          <p className="text-gray-600">
-            Digite ou bipe o código do endereço (mínimo 10 caracteres)
-          </p>
-        </header>
 
         {/* Formulário de leitura */}
         <form onSubmit={handleSubmit} className="mb-8">
