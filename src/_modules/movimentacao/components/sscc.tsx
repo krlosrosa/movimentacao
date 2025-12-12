@@ -6,6 +6,7 @@ import { useState } from "react"
 import { Demanda } from "../store/demanda"
 import ModalValidarAnomalia from "./modalValidarAnomaliar"
 import useRegisterAnomalia from "../hooks/useRegisterAnomalia"
+import toast from "react-hot-toast"
 
 interface SSCCProps {
   setTabSelect: (tab: string) => void
@@ -22,6 +23,8 @@ export default function SSCC({ setTabSelect, demanda }: SSCCProps) {
     
     if (sscc === ssccEsperado) {
       setTabSelect('enderecoDestino')
+    } else {
+      toast.error('SSCC incorreto')
     }
     setIsOpen(true)
   }

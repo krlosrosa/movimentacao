@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/_shared/_components/ui/card"
 import { MapPin, ScanBarcode } from "lucide-react"
 import { useState } from "react"
 import { Demanda } from "../store/demanda"
+import toast from "react-hot-toast"
 
 interface EnderecoDestinoProps {
   setTabSelect: (tab: string) => void
@@ -19,6 +20,8 @@ export default function EnderecoDestino({ setTabSelect, demanda }: EnderecoDesti
     
     if (endereco === enderecoEsperado) {
       setTabSelect('validacao')
+    } else {
+      toast.error('Endereço incorreto')
     }
   }
 
