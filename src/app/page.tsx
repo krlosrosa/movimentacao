@@ -90,10 +90,6 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                
-                <div className="p-2 bg-white/20 rounded-full">
-                  <opcao.subIcon className="w-6 h-6 text-white" />
-                </div>
               </div>
 
               {/* Indicador visual */}
