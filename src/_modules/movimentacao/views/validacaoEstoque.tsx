@@ -89,8 +89,7 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
   }
 
   const handleBiparNovoEndereco = () => {
-    setBuscaAtiva(true)
-    setStatusBusca('idle')
+    router.push('/contagem')
   }
 
   // Componente para mostrar quando todas as validações estão completas
@@ -138,34 +137,6 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
           )}
           
           <div className="space-y-3">
-            {buscaAtiva ? (
-              <>
-                <div className="mb-2">
-                  <p className="text-sm text-gray-600 mb-1">
-                    Digite o código de barras:
-                  </p>
-                  <BuscaCodigoBarras 
-                    onBuscar={handleBuscarCodigo}
-                    placeholder="Código de barras..."
-                  />
-                  {statusBusca === 'buscando' && (
-                    <p className="text-sm text-blue-600 mt-2 text-center">
-                      Buscando...
-                    </p>
-                  )}
-                </div>
-                <Button
-                  onClick={() => {
-                    setBuscaAtiva(false)
-                    setStatusBusca('idle')
-                  }}
-                  variant="outline"
-                  className="w-full h-12"
-                >
-                  Cancelar Busca
-                </Button>
-              </>
-            ) : (
               <>
                 <Button
                   onClick={handleBiparNovoEndereco}
@@ -184,7 +155,6 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
                   Continuar Editando
                 </Button>
               </>
-            )}
           </div>
         </div>
       </div>
