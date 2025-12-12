@@ -196,18 +196,6 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
       <div className="min-h-screen bg-gray-50 p-4">
         {/* Header com progresso */}
         <div className="max-w-2xl mx-auto mb-4 bg-white p-4 rounded-lg border-2 border-gray-200">
-          <div className="flex justify-between items-center mb-2">
-            {todasValidadas && !mostrarModalConclusao && (
-              <Button 
-                onClick={() => setMostrarModalConclusao(true)}
-                size="sm"
-                className="bg-green-600 hover:bg-green-700 text-white"
-              >
-                <CheckCircle className="w-4 h-4 mr-2" />
-                Concluído
-              </Button>
-            )}
-          </div>
           <div className="flex gap-2 items-center">
             <div className="flex-1 bg-gray-200 rounded-full h-2.5">
               <div 
