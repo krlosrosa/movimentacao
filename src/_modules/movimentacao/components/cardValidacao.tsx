@@ -36,8 +36,7 @@ export default function CardValidacao({
       <CardContent className="p-3 space-y-2.5">
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 min-w-0">
-            <p className="font-mono text-sm font-bold text-gray-900">#{validacao.id}</p>
-            <p className="font-mono text-xs text-gray-600 truncate">{validacao.sku}</p>
+           <p className="font-mono text-lg text-gray-600 font-bold ">{validacao.sku}</p>
           </div>
           <Badge 
             variant={validacao.validado ? "default" : "outline"}
@@ -77,8 +76,8 @@ export default function CardValidacao({
           )}
           {validacao.qtdPalete !== undefined && (
             <div className="bg-amber-50 p-2 rounded border border-amber-200">
-              <p className="text-[10px] font-medium text-amber-600 uppercase">Qtd Palete</p>
-              <p className="text-xl font-bold text-amber-900">{validacao.qtdPalete}</p>
+              <p className="text-[10px] font-medium text-amber-600 uppercase">Peso</p>
+              <p className="text-xl font-bold text-amber-900">{validacao.peso}</p>
             </div>
           )}
         </div>
