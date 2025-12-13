@@ -128,9 +128,9 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 p-4">
+      <div className="min-h-screen bg-gray-50 p-1">
         {/* Header com progresso */}
-        <div className="max-w-2xl mx-auto mb-4 bg-white p-4 rounded-lg border-2 border-gray-200">
+        <div className="max-w-2xl mx-auto mb-1 bg-white p-2 rounded-lg border-2 border-gray-200">
           <div className="flex gap-2 items-center">
             <div className="flex-1 bg-gray-200 rounded-full h-2.5">
               <div 

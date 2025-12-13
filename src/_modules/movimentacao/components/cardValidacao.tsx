@@ -4,9 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/_shared/_components/ui/card"
 import { Badge } from "@/_shared/_components/ui/badge"
 import { Button } from "@/_shared/_components/ui/button"
-import { CheckCircle2, AlertCircle, Package, Edit2, ChevronLeft, ChevronRight, X } from "lucide-react"
-import { Input } from "@/_shared/_components/ui/input"
-import { Label } from "@/_shared/_components/ui/label"
+import { CheckCircle2, Edit2 } from "lucide-react"
 import { ValidacaoContagemLite } from "../types/validacao-contatem-lite"
 
 // Card de Validação Individual
