@@ -20,8 +20,8 @@ export default async function RootLayout({
   // Você pode precisar ajustar o 'fetchUser' (mock) ou usá-lo
   // para pegar os 'centers', que parecem faltar na sessão.
   const user = {
-    id: session?.user.id,
-    name: session?.user.name || '',
+    id: session?.user.id || '421931',
+    name: session?.user.name || 'Carlos Rosa',
     roles: session?.user.roles || [],
     empresa: session?.user.empresa || null,
     centers: ['bauru'] as string[],

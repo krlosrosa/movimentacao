@@ -1,5 +1,5 @@
 import ModalEdicao, { FormData } from "./modalEditar"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ValidacaoContagemLite } from "../types/validacao-contatem-lite"
 import { Button } from "@/_shared/_components/ui/button"
 import { ChevronLeft, ChevronRight, Barcode, CheckCircle, Edit, X, Search } from "lucide-react"
@@ -22,41 +22,6 @@ export default function ValidacaoEstoque({ validacao }: { validacao: ValidacaoCo
   const totalValidacoes = validacoes.length
   const validacoesCompletas = validacoes.filter(v => v.validado).length
   const todasValidadas = validacoesCompletas === totalValidacoes && totalValidacoes > 0
-
-  const handleBuscarCodigo = async (codigo: string) => {
-    setStatusBusca('buscando')
-    
-    try {
-      // Simulação de busca - substitua pela sua API real
-      const response = await fetch(`/api/contagem/buscar?codigo=${encodeURIComponent(codigo)}`)
-      
-      if (!response.ok) {
-        setStatusBusca('nao-encontrado')
-        return
-      }
-      
-      const data = await response.json()
-      
-      if (data.encontrado && data.id) {
-        setStatusBusca('encontrado')
-        // Navega para a página de contagem do item encontrado
-        setTimeout(() => {
-          router.push(`/contagem/${data.id}`)
-        }, 500)
-      } else {
-        setStatusBusca('nao-encontrado')
-        // Pode oferecer criar novo ou apenas mostrar que não encontrou
-        setTimeout(() => {
-          setStatusBusca('idle')
-        }, 2000)
-      }
-    } catch (error) {
-      setStatusBusca('nao-encontrado')
-      setTimeout(() => {
-        setStatusBusca('idle')
-      }, 2000)
-    }
-  }
 
   const handleProximo = () => {
     if (indiceAtual < totalValidacoes - 1) {

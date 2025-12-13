@@ -33,6 +33,7 @@ export default function ContagemEstoque() {
     }
   }
 
+
   // Função para resetar busca
   const handleReset = () => {
     setEnderecoInput("")
@@ -57,6 +58,19 @@ export default function ContagemEstoque() {
       iniciarValidacao()
     }
   }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault()
+      handleBuscarEndereco()
+    }
+  }
+
+  useEffect(() => {
+    if(enderecoInput.length >= 10 && enderecoData && enderecoData.length > 0) {
+      iniciarValidacao()
+    }
+  },[enderecoInput, enderecoData])
 
   // Verifica se input é válido para buscar
   const inputValido = enderecoInput.length >= 10
@@ -95,6 +109,7 @@ export default function ContagemEstoque() {
                     className="pl-12 text-lg h-14"
                     disabled={isLoadingEndereco || validado}
                     maxLength={50}
+                    onKeyDown={handleKeyDown}
                   />
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                     <Barcode className="h-5 w-5 text-gray-400" />

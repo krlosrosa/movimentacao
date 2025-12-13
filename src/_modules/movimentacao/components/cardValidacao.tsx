@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/_shared/_components/ui/card"
 import { Badge } from "@/_shared/_components/ui/badge"
 import { Button } from "@/_shared/_components/ui/button"
@@ -19,6 +19,18 @@ export default function CardValidacao({
   onConfirmar: () => void
   onEditar: () => void
 }) {
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        onConfirmar()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [validacao])
+
   return (
     <Card className="w-full border-2">
       <CardContent className="p-3 space-y-2.5">
