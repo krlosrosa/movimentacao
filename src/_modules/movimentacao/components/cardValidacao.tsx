@@ -54,8 +54,8 @@ export default function CardValidacao({
             <p className="text-sm font-bold text-blue-900">{validacao.endereco}</p>
           </div>
           <div className="bg-purple-50 p-2 rounded border border-purple-200">
-            <p className="text-[10px] font-medium text-purple-600 uppercase">Data</p>
-            <p className="text-sm font-bold text-purple-900">{validacao.dataRef}</p>
+            <p className="text-[10px] font-medium text-purple-600 uppercase">Lote</p>
+            <p className="text-sm font-bold text-purple-900">{validacao.lote}</p>
           </div>
         </div>
         
